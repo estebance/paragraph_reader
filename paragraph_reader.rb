@@ -3,12 +3,16 @@ class ParagraphReader
 
   def initialize
 
+  # we use while true to repeat the program and provide multiple paragraphs
+  # the program finishes when the user close the process using ctrl + c
 
   while true
 
+    #we have to validate when the user provides a number
+    #when the user provides a paragraph we continue to the next step ( decode the paragraph)
+
     begin
       paragraph = get_paragraph
-      puts "true or false #{validates_number(paragraph)}"
       if  validates_number(paragraph)
         puts "you've provided a number"
       end
@@ -22,6 +26,8 @@ class ParagraphReader
 
   end
 
+  # we use gets to return the user input
+  # chomp to remove the line break
 
   def get_paragraph
 
@@ -43,6 +49,9 @@ class ParagraphReader
 
     puts 'Including all the words in one array'
 
+    # we use a regular expression to insert each word separated by space
+    # in a paragraph we might have numbers so the next step is delete the numbers
+
     wordsArray = paragraph.downcase.split(/\W+/)
 
     puts 'deleting all numbers in the array'
@@ -55,10 +64,16 @@ class ParagraphReader
 
     puts 'read and count all the words'
 
-    counter =  wordsArray.inject(Hash.new(0)) { |h,v| h[v] += 1; h }
+    # when the array is 'clean' we use inject to get each word and the number of times that this word appears
+    # each word and word_count are inserted in a hash
+
+    counter =  wordsArray.inject(Hash.new(0)) { |hash,value| hash[value] += 1; hash }
     puts counter
 
   end
+
+  # this method validates if we provided a number or text
+  # If the param is text the method rescues the exception and return false
 
   def validates_number(param)
     Float(param) != nil rescue false
